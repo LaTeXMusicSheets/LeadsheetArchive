@@ -1,0 +1,14 @@
+#!/bin/bash
+#compiles all files using pdflatex
+currentDir=$(dirname $0)
+
+cd $currentDir
+
+texfiles=$currentDir/*.tex
+
+for i in $texfiles;
+do 
+latexmk $i -outdir=pdf -pdf 
+latexmk $i -C;
+latexmk $i -outdir=pdf -c ;
+done

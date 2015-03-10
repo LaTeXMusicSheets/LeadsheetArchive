@@ -12,7 +12,7 @@
 \ProcessOptions\relax
 
 % % Load base
-\LoadClass[paper=a4,12pt,oneside,BCOR=15mm,DIV=15]{scrartcl}
+\LoadClass[a4paper,12pt,oneside,BCOR=15mm,DIV=15]{scrartcl}
 
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
