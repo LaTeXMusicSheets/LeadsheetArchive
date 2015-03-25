@@ -54,7 +54,7 @@
   {\enditemize \hrule}
 \makeatother
 
-\setchordnames{output-notation=german,input-notation=german}
+\setchordnames{output-notation=german,input-notation=english}
 \setleadsheets{verse/numbered=true,verse/named=true,title-template=tabular,bar-shortcuts=true}
 
 \DeclareTranslation{German}{leadsheets/schedule}{Ablauf}
