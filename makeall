@@ -4,6 +4,7 @@ currentDir=$(dirname $0)
 
 cd $currentDir
 
+IFS=$(echo -en "\n\b")
 texfiles=$currentDir/*.tex
 
 for i in $texfiles;
