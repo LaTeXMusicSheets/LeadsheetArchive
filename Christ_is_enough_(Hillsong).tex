@@ -1,13 +1,12 @@
 \documentclass{leadsheet}
 
-\newversetype{bridge2}[ name=Bridge 2, named=true, after-label= ]
 
 \begin{document}
 
-\begin{song}[remember-chords,transpose=0]{title={Christ is enough},short-title={Christ is enoughk},interpret={Hillsong},lyrics={Jonas Myrin, Reuben Morgan },composer={Jonas Myrin, Reuben Morgan s},key={H},tempo={80 bpm}}
+\begin{song}[transpose=0]{title={Christ is enough},short-title={Christ is enoughk},interpret={Hillsong},lyrics={Jonas Myrin, Reuben Morgan },composer={Jonas Myrin, Reuben Morgan s},key={H},tempo={80 bpm}}
 
 \begin{schedule}
-I -- V1 -- Pre -- R -- V2 -- Pre -- R -- Z -- B -- R -- B2 -- B2
+I -- V1 -- Pre -- R -- V2 -- Pre -- R -- Z -- B1 -- B2 -- ( ^{H}1x ) -- R -- B3 -- B1 -- B2
 \end{schedule}
 
 \begin{intro}
@@ -16,8 +15,8 @@ I -- V1 -- Pre -- R -- V2 -- Pre -- R -- Z -- B -- R -- B2 -- B2
 \end{intro}
 
 \begin{verse}
-| ^{G#m}Christ is my reward | ^{E}\halfrest~ and all of my de- | ^{H}votion | ^{F#sus/A#}\halfrest~ \eighthrest~ Now there's
-| ^{G#m}nothing in this world | ^{E}\halfrest~ that could ever satis- | ^{H}fy
+| ^{G#m}Christ is my reward | ^{E}\halfrest~ and all of my de- | ^{H}votion | ^{F#sus/A#}\halfrest~ \eighthrest~ \\
+Now there's| ^{G#m}nothing in this world | ^{E}\halfrest~ that could ever satis- | ^{H}fy
 \end{verse}
 
 \begin{prechorus}
@@ -32,27 +31,28 @@ I -- V1 -- Pre -- R -- V2 -- Pre -- R -- Z -- B -- R -- B2 -- B2
 \end{chorus}
 
 \begin{verse}[recall-chords=verse]
-|^Christ my all in all, | ^\halfrest~ my joy and my sal- | ^vation | ^\halfrest~ \eighthrest~ And this\\
-| ^hope will never fail, | ^\halfrest~ Heaven is our | ^home \halfrest~ 
+|^{G#m}Christ my all in all, | ^{E}\halfrest~ my joy and my sal- | ^{H}vation | ^{F#sus/A#}\halfrest~ \eighthrest~ And this\\
+| ^{G#m}hope will never fail, | ^{E}\halfrest~ Heaven is our | ^{H}home \halfrest~ 
 \end{verse}
 
-\begin{interlude}
-|: H | H :|
-\end{interlude}
+%\begin{interlude}|: H | H :|\end{interlude}
 
-\begin{bridge}
+\begin{bridge}[numbered=true]
 I have de- | ^{H}cided to follow | Jesus, no turning | ^Eback, no ^{G#m}turning | ^{F#}back \\
 I have de- | ^{H}cided to follow | Jesus, no turning | ^Eback, no ^{F#}turning | ^{H}back \\
-The cross be- | ^{G#m}fore me,^{E} the world be- | ^{F#}hind me,^{G#m} no turning | ^{E}back, \\
-no ^{G#m}turning | ^{F#}back. \\
-The cross be- | ^{G#m}fore me,^{E} the world be- | ^{F#}hind me,^{G#m} no turning | ^{E}back, \\
-no ^{F#}turning | ^{H}back | \wholerest~
 \end{bridge}
 
-\begin{bridge2}
+\begin{bridge}[numbered=true]
+The cross be- | ^{G#m}fore me,^{E}\eighthrest~the world be- | ^{F#}hind me,
+^{G#m}\eighthrest~no turning | ^{E}back, no ^{G#m}turning | ^{F#}back. \\
+The cross be- | ^{G#m}fore me,^{E}\eighthrest~the world be- |^{F#}hind me,
+^{G#m}\eighthrest~no turning | ^{E}back, no ^{F#}turning |^{H}back
+\end{bridge}
+
+\begin{bridge}[numbered=true]
 I have de- | ^{G#m}cided ^{E} to follow | ^{F#}Jesus, ^{G#m} no turning | ^Eback, no ^{G#m}turning | ^{F#}back \\
 I have de- | ^{G#m}cided ^{E} to follow | ^{F#}Jesus, ^{G#m} no turning | ^Eback, no ^{F#}turning | ^{H}back \\
-\end{bridge2}
+\end{bridge}
 
 \end{song}
 \end{document}
