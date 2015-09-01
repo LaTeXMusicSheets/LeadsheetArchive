@@ -55,7 +55,7 @@
 \makeatother
 
 
-\setleadsheets{chords/input-notation=english,chords/output-notation=german}
+\setleadsheets{chords/input-notation=english,chords/output-notation=german,align-chords=l}
 \setleadsheets{verse/numbered=true,verse/named=true,title-template=tabular,bar-shortcuts=true}
 
 \DeclareTranslation{German}{leadsheets/schedule}{Ablauf}

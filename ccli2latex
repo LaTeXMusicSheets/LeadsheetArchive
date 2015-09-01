@@ -1,0 +1,96 @@
+#!/usr/bin/perl -w
+use strict;
+use warnings;
+
+my $inputFile = $ARGV[0];
+my $outputFile = $ARGV[1];
+
+my $title = "";
+my $author = "";
+my $key = "";
+my @fields;
+my @words;
+
+open (my $file, '<', $inputFile) || die "Couldn't open $inputFile: $!"; 
+open (my $fh, '>', $outputFile) || die "Couldn't open $outputFile: $!"; 
+
+
+
+while(my $line = <$file>) {
+	chomp $line;
+	if($line =~ /^Title=(.*?)$/) {
+		$title = $1;
+		chomp $title;
+	}
+	if($line =~ /^Author=(.*?)$/) {
+		$author = $1;
+		chomp $author;
+		 $author =~ s/\ \|/,/g
+	}
+	if($line =~ /^Fields=(.*?)$/) {
+		@fields = split "/t", $1 ; 
+	}
+	if($line =~ /^Words=(.*?)$/) {
+		@words = split "/t", $1 ; 
+	}
+	if($line =~ /^Keys=(.*?)$/) {
+		$key = $1;
+	}
+}
+close $file;
+
+
+my $output;
+
+$output .= '\documentclass[]{leadsheet}'."\n\n";
+$output .= '\begin{document}'."\n\n";
+
+$output .= '\begin{song}{';
+if($title ne "") {
+	$output .= 'title={'.$title .'},';
+}
+if($author ne "") {
+	$output .= 'composer={'.$author.'}',;
+}
+if($key ne "") {
+	$output .= 'key={'.$key.'}',;
+}
+$output .= '}'."\n";
+
+
+for my $i (0 .. $#fields) {
+	my $field = $fields[$i];
+	chomp $field;
+	my $wordline = $words[$i];
+	my $fieldname;
+
+	if($field =~ /Vers \d/) {
+		$fieldname = "verse";
+	}
+	if($field =~ /Chorus \d/) {
+		$fieldname = "chorus";
+	}
+
+	if($field =~ /Andere \d/) {
+		if($wordline =~ s!\(Bridge\)/n!!g) {
+			$fieldname = "bridge";
+		}
+		if($wordline =~ s!\(Schluss\)/n!!g) {
+			$fieldname = "outro";
+		}
+		if($wordline =~ s!\(Zwischenspiel\)/n!!g) {
+			$fieldname = "interlude";
+		}
+	}
+
+	$wordline  =~ s!/n! \\\\\n!g;
+
+	$output .= '\begin{' .$fieldname. '}'."\n";
+    	$output .= "$wordline";
+	$output .= '\end{' .$fieldname. '}'."\n\n";
+}
+$output .= '\end{song}'."\n\n";
+$output .= '\end{document}'."\n\n";
+
+print $fh $output;
+close $fh;
