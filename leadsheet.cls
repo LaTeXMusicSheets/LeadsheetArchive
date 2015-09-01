@@ -12,13 +12,13 @@
 \ProcessOptions\relax
 
 % % Load base
-\LoadClass[a4paper,12pt,oneside,BCOR=15mm,DIV=18]{scrartcl}
+\LoadClass[a4paper,fontsize=12pt,twoside=false,BCOR=15mm,DIV=18]{scrartcl}
 
 \RequirePackage[utf8]{inputenc}
+\usepackage[sfdefault]{roboto}
 \RequirePackage[T1]{fontenc}
-\RequirePackage[sfdefault]{roboto}
 
-\RequirePackage[ngerman]{babel}
+\RequirePackage[english,ngerman]{babel}
 
 % % Define Header and Footer % %
 \RequirePackage[headsepline,footsepline]{scrlayer-scrpage}
@@ -54,7 +54,8 @@
   {\enditemize \hrule}
 \makeatother
 
-\setleadsheets{chordnames/input-notation=english,chordnames/output-notation=german}
+
+\setleadsheets{chords/input-notation=english,chords/output-notation=german}
 \setleadsheets{verse/numbered=true,verse/named=true,title-template=tabular,bar-shortcuts=true}
 
 \DeclareTranslation{German}{leadsheets/schedule}{Ablauf}
