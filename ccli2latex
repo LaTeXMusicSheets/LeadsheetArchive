@@ -50,10 +50,10 @@ if($title ne "") {
 	$output .= 'title={'.$title .'},';
 }
 if($author ne "") {
-	$output .= 'composer={'.$author.'}',;
+	$output .= 'composer={'.$author.'},';
 }
 if($key ne "") {
-	$output .= 'key={'.$key.'}',;
+	$output .= 'key={'.$key.'},';
 }
 $output .= '}'."\n";
 
