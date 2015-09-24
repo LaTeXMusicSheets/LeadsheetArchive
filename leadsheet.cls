@@ -26,6 +26,7 @@
 % Header Style
 \pagestyle{scrheadings}
 \automark{section}
+\ofoot{Stand \today}
 
 % Remove Numbering
 \setcounter{secnumdepth}{0}
