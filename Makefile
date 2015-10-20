@@ -1,4 +1,4 @@
-LATEXMK := latexmk -outdir=export -pdf -silent
+LATEXMK := latexmk -outdir=export -auxdir=tmp -pdf -silent
 PURGECMD := $(LATEXMK) -c
 CLEANCMD := $(LATEXMK) -C
 CCLICMD := ccli2latex
@@ -9,8 +9,6 @@ USRFILE := %.usr
 .PHONY: clean
 .PHONY: all
 .PHONY: purge
-
-.PHONY: new $(TEXFILE)
 
 leftparen:=(
 rightparen:=)
@@ -29,7 +27,7 @@ $(TEXFILE):
 
 # Compile with PDFLaTeX
 $(PDFFILE): $(TEXFILE)
-	$(LATEXMK) $<
+	$(LATEXMK) "$<"
 
 # Remove all auxiliary files (excluding pdf)
 purge:
