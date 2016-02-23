@@ -15,24 +15,27 @@ rightparen:=)
 
 # Build all files in dir and make pdfs
 all:
-	$(LATEXMK)
+	@$(LATEXMK)
+
+usr:
+	@$(foreach usr,$(wildcard *.usr),make "$(usr:.usr=.tex)"; rm $(usr);)
 
 # Create new tex-song file from lyrics
 $(TEXFILE): $(USRFILE)
-	./helper/ccli2latex "$<" "$@"
+	@./helper/ccli2latex "$<" "$@"
 
 # Create new bare tex-song file
 $(TEXFILE):
-	cp ./helper/Base.tex "$@"
+	@cp ./helper/Base.tex "$@"
 
 # Compile with PDFLaTeX
 $(PDFFILE): $(TEXFILE)
-	$(LATEXMK) "$<"
+	@$(LATEXMK) "$<"
 
 # Remove all auxiliary files (excluding pdf)
 purge:
-	$(PURGECMD)
+	@$(PURGECMD)
 
 # Remove all build files (including pdf)
 clean:
-	$(CLEANCMD)
+	@$(CLEANCMD)
