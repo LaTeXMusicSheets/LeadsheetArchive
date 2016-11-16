@@ -1,0 +1,33 @@
+#!/usr/bin/perl -w
+use strict;
+use warnings;
+
+my $inputFile = $ARGV[0];
+my $outputFile = $ARGV[1];
+
+my $title = "";
+my $author = "";
+my $key = "";
+my @fields;
+my @words;
+
+open my $fh, '<', $inputFile or die "error opening $inputFile: $!";
+my $data = do { local $/; <$fh> };
+close $fh;
+
+$data =~ s/^Verse ?(\d+)?\R(.*?)\R\R/\\begin{verse}\n$2\n\\end{verse}\n/msg;
+$data =~ s/^Interlude ?(\d+)?\R(.*?)\R\R/\\begin{interlude}\n$2\n\\end{interlude}\n/msg;
+$data =~ s/^Chorus ?(\d+)?\R(.*?)\R\R/\\begin{chorus}\n$2\n\\end{chorus}\n/msg;
+$data =~ s/^Pre-Chorus ?(\d+)?\R(.*?)\R\R/\\begin{prechorus}\n$2\n\\end{prechorus}\n/msg;
+
+$data =~ s/(.*?)\R(.*)CCLI Song .*\R(.*)\R(.*)\R.*\RCCLI License .*/\\documentclass[]{leadsheet}\n\n\\begin{document}\n\n\\begin{song}[]{title={$1},composer={$3}}\n$2\n\\end{song}\n\\end{document}\n/msg;
+
+$data =~ s/ \|/,/msg;
+
+#while ($data =~ s/(\\begin{(?'part'verse|interlude|prechorus|chorus)}\R)(?!\\end{(?P=part)}|(?:.*)\\\\\R)(.*)\R/$1$2\\/gm) {
+#}
+
+open my $fh2, '>', $outputFile or die "error opening $outputFile: $!";
+
+print $fh2 $data;
+close $fh2;

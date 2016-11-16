@@ -5,6 +5,7 @@ CCLICMD := ccli2latex
 TEXFILE := %.tex
 PDFFILE := %.pdf
 USRFILE := %.usr
+TXTFILE := %.txt
 
 .PHONY: clean
 .PHONY: all
@@ -12,6 +13,9 @@ USRFILE := %.usr
 
 leftparen:=(
 rightparen:=)
+
+export PATH := /usr/local/texlive/2016/bin/x86_64-linux:$(PATH)
+
 
 # Build all files in dir and make pdfs
 all:
@@ -23,6 +27,9 @@ usr:
 # Create new tex-song file from lyrics
 $(TEXFILE): $(USRFILE)
 	@./helper/ccli2latex "$<" "$@"
+
+$(TEXFILE): $(TXTFILE)
+		@./helper/cclitxt2latex "$<" "$@"
 
 # Create new bare tex-song file
 $(TEXFILE):
