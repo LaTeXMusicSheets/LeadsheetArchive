@@ -1,4 +1,4 @@
-LATEXMK := latexmk -outdir=export -auxdir=tmp -pdf -silent
+LATEXMK := latexmk -outdir=export -pdf -silent -quiet
 PURGECMD := $(LATEXMK) -c
 CLEANCMD := $(LATEXMK) -C
 CCLICMD := ccli2latex
@@ -14,7 +14,7 @@ TXTFILE := %.txt
 leftparen:=(
 rightparen:=)
 
-export PATH := /usr/local/texlive/2016/bin/x86_64-linux:$(PATH)
+#export PATH := /usr/local/texlive/2016/bin/x86_64-linux:$(PATH)
 
 
 # Build all files in dir and make pdfs
@@ -23,6 +23,9 @@ all:
 
 usr:
 	@$(foreach usr,$(wildcard *.usr),make "$(usr:.usr=.tex)"; rm $(usr);)
+
+txt:
+		@$(foreach txt,$(wildcard *.txt),make "$(txt:.txt=.tex)"; rm $(txt);)
 
 # Create new tex-song file from lyrics
 $(TEXFILE): $(USRFILE)
