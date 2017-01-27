@@ -92,6 +92,8 @@
 	%title-template=tabular,
 	chords/input-notation=english,
 	chords/output-notation=german,
+  chords/german-B=Bb,
+  chords/german-H=H,
 	align-chords=l
 }
 
