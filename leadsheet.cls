@@ -27,7 +27,7 @@
 \RequirePackage{leadsheets}
 
 \RequirePackage[utf8]{inputenc}
-\usepackage[sfdefault]{roboto}
+\usepackage[sfdefault,rm]{roboto}
 \RequirePackage[T1]{fontenc}
 
 \RequirePackage[english,ngerman]{babel}
@@ -84,6 +84,7 @@
   bar-shortcuts ,
   verse/numbered ,
   verses-format = ,
+  verses-label-format = \rmfamily\bfseries\itshape,
   info/format = \itshape ,
   chorus/format = \itshape,
 	verse/numbered=true,
