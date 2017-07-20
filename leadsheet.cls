@@ -22,7 +22,7 @@
 % The Current Maintainer of this work is Clemens Niederberger.
 % --------------------------------------------------------------------------
 \ProvidesClass{leadsheet}[2016/07/21 v0.5 leadsheets class (part of the leadsheets package)]
-\LoadClass[a4paper,fontsize=12pt,twoside=false,BCOR=15mm,DIV=18]{scrartcl}
+\LoadClass[a4paper,fontsize=11pt,twoside=false,BCOR=7mm,DIV=24,headings=standardclasses,headings=big]{scrartcl}
 
 \RequirePackage{leadsheets}
 
@@ -80,7 +80,7 @@
 \DeclareTranslation{German}{leadsheets/interpret}{Interpret: \printsongpropertylist{interpret}{ \& }{, }{ \& }}
 
 \setleadsheets{
-  title-template = tabular ,
+  title-template = tabular-ext,
   bar-shortcuts ,
   verse/numbered ,
   verses-format = ,
@@ -89,12 +89,19 @@
   chorus/format = \itshape,
 	verse/numbered=true,
 	verse/named=true,
-	%title-template=tabular,
+  verse/template=framed,
+  chorus/template=framed,
+  bridge/template=framed,
+  intro/template=framed,
+  interlude/template=framed,
 	chords/input-notation=english,
 	chords/output-notation=german,
   chords/german-B=Bb,
   chords/german-H=H,
-	align-chords=l
+  chords/format=\bfseries,
+  chorus/format=,
+	align-chords=l,
+  verses-after-label=,
 }
 
 \RequirePackage[headsepline,footsepline]{scrlayer-scrpage}
@@ -122,11 +129,106 @@
 \ofoot{Stand \today}
 
 \LeadsheetSurvive
-\provideversetype{prechorus}[name=Prechorus]
-\provideversetype*{prechorus*}[name=Prechorus]
+\provideversetype{prechorus}[name=Prechorus,template=framed]
+\provideversetype*{prechorus*}[name=Prechorus,template=framed]
 
 \provideversetype{schedule}[name=Schedule,template=framed-itemize]
 \provideversetype*{schedule*}[name=Schedule,template=framed-itemize]
+
+\addtokomafont{section}{\Huge}
+
+\definesongtitletemplate {tabular-ext}
+  {
+
+  \begin{tabular}{
+      @{}
+      >{\raggedright\arraybackslash}p{0.7\textwidth}
+      @{}
+    }
+  \ifsongmeasuring
+    { \section* }
+    { \section }
+    { \songproperty {title} }
+  \ifsongproperty{interpret}
+    { \\ \GetTranslation{leadsheets/interpret}}
+    { }
+  \end{tabular}
+  \begingroup\footnotesize
+    \begin{tabular}{
+        @{}
+        p{0.075\linewidth}p{0.225\linewidth}
+        @{}
+      }
+      \ifsongproperty{composer}
+        {
+          \GetTranslation{leadsheets/composer}:
+          & \printsongpropertylist{composer}{~\&~}{,~}{~\&~}
+          \ifsongproperty{lyrics}
+            {\\ \GetTranslation{leadsheets/lyrics}:
+            &  \printsongpropertylist{lyrics}{~\&~}{,~}{~\&~}
+            }
+            {}
+        }
+        {}
+      \ifsongproperty{genre}
+        {\\ Genre: & \songproperty{genre}}
+        {}
+      \ifsongproperty{tempo}
+        {\\ Tempo: & \songproperty{tempo}}
+        {}
+      \ifsongproperty{key}
+        { \\
+          \setchords{
+            major = -\GetTranslation{leadsheets/major} ,
+            minor = -\GetTranslation{leadsheets/minor}
+          }
+          \GetTranslation{leadsheets/key}: &
+          \expandcode{\writechord{\songproperty{key}}}
+        }
+        {}
+    \end{tabular}
+\par\endgroup
+}
+
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{tikz}
+\usepackage{xstring}
+
+\newcommand{\bubbletag}[1]{\tikz[font=\rmfamily\bfseries\itshape\footnotesize,baseline=-0.6ex,outer sep=0pt,inner sep=0,every node/.style={inner sep=0,outer sep=0}]
+              \node[anchor=east,shape=circle,fill=black,draw=white,line width=2pt,text=white,inner sep=2pt,text centered, minimum size=18pt] at (0,0)
+              {#1};}
+
+\defineversetypetemplate{framed}
+  {%
+    \expandcode{%
+      \noexpand\mdframed[
+        \ifversestarred{}{%
+          frametitle={%
+              \noexpand\tikz[baseline=(current bounding box.east),outer sep=0pt,inner sep=0,every node/.style={inner sep=0,outer sep=0}]
+              \noexpand\node[anchor=east,rectangle,fill=white,inner xsep=2pt,text centered,minimum height=25pt] {
+              \noexpand\bubbletag
+              {\noexpand\footnotesize\noexpand\StrLeft{\noexpand\versename}{1}\noexpand\StrSubstitute{\noexpand\versenumber}{.}{}}
+              \noexpand\strut\noexpand\verselabel};
+          }%
+        },
+        roundcorner = 5pt ,
+        linecolor = black!30 ,
+        linewidth = 0.5pt,
+        topline = true,
+        frametitleaboveskip = \dimexpr-3pt-\ht\strutbox\relax,
+        innertopmargin = 0pt,
+      ]%
+    }%
+    \setlength\parindent{0pt}
+    \setlength\parskip{\parsep}
+    \ifobeylines
+      {\setleadsheets{ obey-lines-parskip=\parskip }\setlength\parskip{0pt}}
+      {\vspace*{-\parskip}}%
+  }
+  {%
+    \endmdframed
+}
+
 \makeatletter
 \defineversetypetemplate{framed-itemize}
 {%
