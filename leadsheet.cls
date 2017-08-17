@@ -22,7 +22,7 @@
 % The Current Maintainer of this work is Clemens Niederberger.
 % --------------------------------------------------------------------------
 \ProvidesClass{leadsheet}[2016/07/21 v0.5 leadsheets class (part of the leadsheets package)]
-\LoadClass[a4paper,fontsize=11pt,twoside=false,BCOR=7mm,DIV=24,headings=standardclasses,headings=big]{scrartcl}
+\LoadClass[a4paper,fontsize=10pt,DIV=22,headings=big]{scrartcl}
 
 \RequirePackage{leadsheets}
 
@@ -52,6 +52,10 @@
 \defleadsheetstranslation{German}{interpret}{Interpret}
 \defleadsheetstranslation{German}{choir}{Chor}
 
+\LeadsheetSurvive
+
+\LeadsheetEndSurvive
+
 \providecommand*\ls@songtitle{}
 \providecommand*\ls@songinterpret{}
 
@@ -71,20 +75,23 @@
   }{}%
 }
 
+  \RequirePackage{multicol}
+
 % Remove Numbering
 \setcounter{secnumdepth}{0}
 
 \DeclareTranslation{German}{leadsheets/schedule}{Ablauf}
 \DeclareTranslation{German}{leadsheets/interlude}{Zwischenspiel}
+\DeclareTranslation{German}{leadsheets/verse}{Vers}
 \DeclareTranslation{German}{leadsheets/prechorus}{Prechorus}
 \DeclareTranslation{German}{leadsheets/interpret}{Interpret: \printsongpropertylist{interpret}{ \& }{, }{ \& }}
 
 \setleadsheets{
-  title-template = tabular-ext,
+  title-template = tabular,
   bar-shortcuts ,
   verse/numbered ,
   verses-format = ,
-  verses-label-format = \rmfamily\bfseries\itshape,
+  verses-label-format = \bfseries,
   info/format = \itshape ,
   chorus/format = \itshape,
 	verse/numbered=true,
@@ -102,9 +109,16 @@
   chorus/format=,
 	align-chords=l,
   verses-after-label=,
+  after-title=\begin{multicols}{2},
+  after-song=\end{multicols}
 }
 
-\RequirePackage[headsepline,footsepline]{scrlayer-scrpage}
+\RequirePackage{xcolor}
+
+\setkomafont{pageheadfoot}{\color{black!70}\upshape}
+\addtokomafont{section}{\huge}
+
+\RequirePackage[]{scrlayer-scrpage}
 \RequirePackage{zref-totpages}
 \pagestyle{scrheadings}
 \rohead{}
@@ -124,6 +138,23 @@
   \fi
 }
 
+\RequirePackage{scrlayer-scrpage,zref-totpages}
+\pagestyle{scrheadings}
+\rohead{}
+\cohead{%
+  \ifnum\ztotpages>1
+    \ifnum\value{page}=1
+    \else
+      \ls@songtitle
+      \ifdefvoid\ls@songinterpret{}{ (\ls@songinterpret)}%
+    \fi
+  \fi
+}
+\cofoot{%
+    \leadsheetstranslate{page}~\thepage~%
+    \leadsheetstranslate{of}~\ztotpages
+}
+
 % Header Style
 \automark{section}
 \ofoot{Stand \today}
@@ -131,72 +162,64 @@
 \LeadsheetSurvive
 \provideversetype{prechorus}[name=Prechorus,template=framed]
 \provideversetype*{prechorus*}[name=Prechorus,template=framed]
+\provideversetype{tagpart}[name=Tag,template=framed]
+\provideversetype*{tagpart*}[name=Tag,template=framed]
 
-\provideversetype{schedule}[name=Schedule,template=framed-itemize]
-\provideversetype*{schedule*}[name=Schedule,template=framed-itemize]
-
-\addtokomafont{section}{\Huge}
-
-\definesongtitletemplate {tabular-ext}
-  {
-
-  \begin{tabular}{
-      @{}
-      >{\raggedright\arraybackslash}p{0.7\textwidth}
-      @{}
-    }
-  \ifsongmeasuring
-    { \section* }
-    { \section }
-    { \songproperty {title} }
-  \ifsongproperty{interpret}
-    { \\ \GetTranslation{leadsheets/interpret}}
-    { }
-  \end{tabular}
-  \begingroup\footnotesize
-    \begin{tabular}{
-        @{}
-        p{0.075\linewidth}p{0.225\linewidth}
-        @{}
-      }
-      \ifsongproperty{composer}
-        {
-          \GetTranslation{leadsheets/composer}:
-          & \printsongpropertylist{composer}{~\&~}{,~}{~\&~}
-          \ifsongproperty{lyrics}
-            {\\ \GetTranslation{leadsheets/lyrics}:
-            &  \printsongpropertylist{lyrics}{~\&~}{,~}{~\&~}
-            }
-            {}
-        }
-        {}
-      \ifsongproperty{genre}
-        {\\ Genre: & \songproperty{genre}}
-        {}
-      \ifsongproperty{tempo}
-        {\\ Tempo: & \songproperty{tempo}}
-        {}
+\definesongtitletemplate{tabular}{
+    \begin{minipage}{.7\linewidth}
+    \ifsongmeasuring
+      {\section*}
+      {\section}%
+      {\songproperty{title}}
+    \ifsongproperty{interpret}
+      {\color{black!70}\Large{\songproperty{interpret}}}
+      {}%
+    \end{minipage}
+    \begin{minipage}{.3\linewidth}
+        \footnotesize\color{black!70}\centering
       \ifsongproperty{key}
-        { \\
+        {%
           \setchords{
-            major = -\GetTranslation{leadsheets/major} ,
-            minor = -\GetTranslation{leadsheets/minor}
-          }
-          \GetTranslation{leadsheets/key}: &
-          \expandcode{\writechord{\songproperty{key}}}
+              major = -\GetTranslation{leadsheets/major} ,
+              minor = -\GetTranslation{leadsheets/minor}
+            }%
+          \GetTranslation{leadsheets/key}: %
+          \expandcode{\writechord{\songproperty{key}}} \\%
         }
-        {}
-    \end{tabular}
-\par\endgroup
+        {}%
+        \ifsongproperty{tempo}
+            {Tempo: \songproperty{tempo} \\}
+            {}%
+    \end{minipage}\vspace{10pt}
 }
+
+
+\provideversetype{schedule}[name=Schedule,template=schedule]
+\provideversetype*{schedule*}[name=Schedule,template=schedule]
 
 \usepackage[framemethod=TikZ]{mdframed}
 \usepackage{tikz}
 \usepackage{xstring}
 
-\newcommand{\bubbletag}[1]{\tikz[font=\rmfamily\bfseries\itshape\footnotesize,baseline=-0.6ex,outer sep=0pt,inner sep=0,every node/.style={inner sep=0,outer sep=0}]
-              \node[anchor=east,shape=circle,fill=black,draw=white,line width=2pt,text=white,inner sep=2pt,text centered, minimum size=18pt] at (0,0)
-              {#1};}
+\newcommand{\songpart}[2][]{\tikz[font=\footnotesize\verselabelformat,baseline=-0.6ex,outer sep=0pt,inner sep=0,every node/.style={inner sep=0,outer sep=0}]
+              \node[anchor=east,shape=circle,fill=black,draw=white,line width=2pt,text=white,inner sep=2pt,text centered, minimum size=18pt] at (0,0) {#2}
+              \ifx&#1&%
+                 % #1 is empty
+              \else
+              node[anchor=south west,shape=circle,fill=white,draw=black,line width=1pt,text=black,inner sep=1pt,text centered, minimum size=14pt] at ([xshift=-4pt]0,0) {#1}
+              \fi
+
+              ;\allowbreak}
+
+\defineversetypetemplate{schedule}
+  {%
+    \mdframed[
+    linecolor = none,
+    ]
+  }
+  {%
+    \endmdframed
+  }
 
 \defineversetypetemplate{framed}
   {%
@@ -206,9 +229,9 @@
           frametitle={%
               \noexpand\tikz[baseline=(current bounding box.east),outer sep=0pt,inner sep=0,every node/.style={inner sep=0,outer sep=0}]
               \noexpand\node[anchor=east,rectangle,fill=white,inner xsep=2pt,text centered,minimum height=25pt] {
-              \noexpand\bubbletag
-              {\noexpand\footnotesize\noexpand\StrLeft{\noexpand\versename}{1}\noexpand\StrSubstitute{\noexpand\versenumber}{.}{}}
-              \noexpand\strut\noexpand\verselabel};
+              \noexpand\songpart
+              {\noexpand\StrLeft{\noexpand\ifversenamed\versename}{1}\noexpand\StrSubstitute{\noexpand\ifversenumbered\versenumber}{.}{}}
+              \noexpand\strut\noexpand\versename~\noexpand\StrSubstitute{\noexpand\ifversenumbered\versenumber}{.}{}};
           }%
         },
         roundcorner = 5pt ,
@@ -228,22 +251,6 @@
   {%
     \endmdframed
 }
-
-\makeatletter
-\defineversetypetemplate{framed-itemize}
-{%
-	\bigskip
-      \hrule\itemize
-      \@itemdepth=0
-      \ifobeylines
-        {%
-          \setlength{\parskip}{0pt}%
-          \setleadsheets{ obey-lines-parskip = \parsep }%
-}{}%
-\item[{\verselabel}]%
-}
-  {\enditemize \hrule}
-\makeatother
 
 \providerobustcmd*\lsenparen[1]{%
   \expandcode{\noexpand\mklsenparen\mklsenparens{\unexpanded{#1}}}%
