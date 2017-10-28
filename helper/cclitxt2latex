@@ -26,7 +26,7 @@ while($datacopy =~ m/(.*?)((?:Verse|Interlude|Chorus|Pre-Chorus|Bridge|Interlude
 {
 
   $schedule = $schedule . " -- " . $2;
-  $schedule =~ s/Verse ?/V/g;
+  $schedule =~ s/Vers ?/V/g;
   $schedule =~ s/Interlude ?/Z/g;
   $schedule =~ s/Pre-Chorus ?/PC/g;
   $schedule =~ s/Chorus ?/R/g;
@@ -39,13 +39,13 @@ $schedule = "\\begin{schedule}\n$schedule\n\\end{schedule}";
 
 print $schedule;
 
-$data =~ s/^Verse ?(\d+)?\R(.*?)\R\R/\\begin{verse}\n$2\n\\end{verse}\n/msg;
+$data =~ s/^Vers ?(\d+)?\R(.*?)\R\R/\\begin{verse}\n$2\n\\end{verse}\n/msg;
 $data =~ s/^Interlude ?(\d+)?\R(.*?)\R\R/\\begin{interlude}\n$2\n\\end{interlude}\n/msg;
 $data =~ s/^Chorus ?(\d+)?\R(.*?)\R\R/\\begin{chorus}\n$2\n\\end{chorus}\n/msg;
 $data =~ s/^Pre-Chorus ?(\d+)?\R(.*?)\R\R/\\begin{prechorus}\n$2\n\\end{prechorus}\n/msg;
 $data =~ s/^Bridge ?(\d+)?\R(.*?)\R\R/\\begin{bridge}\n$2\n\\end{bridge}\n/msg;
 
-$data =~ s/(.*?)\R(.*)CCLI Song .*\R(.*)\R(.*)\R.*\RCCLI License .*/\\documentclass[]{leadsheet}\n\n\\begin{document}\n\n\\begin{song}[]{title={$1},composer={$3}}\n\n$schedule\n\n$intro\n$2\n\\end{song}\n\\end{document}\n/msg;
+$data =~ s/(.*?)\R(.*)CCLI-Liednummer .*\R(.*)\R(.*)\R.*\RCCLI-Lizenznummer .*/\\documentclass[]{leadsheet-modern}\n\n\\begin{document}\n\n\\begin{song}[]{title={$1},composer={$3}}\n\n$schedule\n\n$intro\n$2\n\\end{song}\n\\end{document}\n/msg;
 
 $data =~ s/ \|/,/msg;
 
