@@ -21,11 +21,10 @@
 %
 % The Current Maintainer of this work is Clemens Niederberger.
 % --------------------------------------------------------------------------
-\ProvidesClass{leadsheet-modern}[2016/07/21 v0.5 leadsheets class (part of the leadsheets package)]
-\LoadClass[a4paper,fontsize=10pt,DIV=10,headings=big]{scrartcl}
+\ProvidesClass{leadsheet-modern-onecolumn}[2016/07/21 v0.5 leadsheets class (part of the leadsheets package)]
+\LoadClass[a4paper,fontsize=10pt,DIV=22,headings=big]{scrartcl}
 
 \RequirePackage{leadsheets}
-\usepackage[top=1.5cm,bottom=1.5cm,left=1.5cm,right=1.5cm]{geometry}
 
 \RequirePackage[utf8]{inputenc}
 \usepackage[sfdefault,rm]{roboto}
@@ -76,7 +75,7 @@
   }{}%
 }
 
-  \RequirePackage{multicol}
+  %\RequirePackage{multicol}
 
 % Remove Numbering
 \setcounter{secnumdepth}{0}
@@ -110,9 +109,9 @@
   chords/format=\bfseries,
   chorus/format=,
 	align-chords=l,
-  verses-after-label=,
-  after-title=\begin{multicols}{2},
-  after-song=\end{multicols}
+  verses-after-label=%,
+  %after-title=\begin{multicols}{1},
+  %after-song=\end{multicols}
 }
 
 \RequirePackage{xcolor}
